@@ -23,10 +23,18 @@ You can't filter level 3 gear (always enabled)
 * NUMPAD_5 -> Filter Meds
 * NUMPAD_6 -> Filter Ammo
 
+#### Item Offset Tweaker Keybinds
+* F5 -> Item Offset X++
+* F6 -> Item Offset X--
+* F7 -> Item Offset Y++
+* F8 -> Item Offset Y--
+
 #### Zooms:
 * NUMPAD_7 -> Scouting
 * NUMPAD_8 -> Scout/Loot
 * NUMPAD_9 -> Looting
+* F9 ->  Camera Zoom ++
+* F10 -> Camera Zoom --
 
 ### Online Mode:
 `java -jar target\pubg-radar-1.0-SNAPSHOT-jar-with-dependencies.jar "Middle PC IP" PortFilter "Game PC IP"`

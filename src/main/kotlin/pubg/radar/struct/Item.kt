@@ -75,13 +75,12 @@ class Item {
                         "Pan" to "Item_Weapon_Pan",
                         "Sawn" to "WeapSawnOff",
                         "Vector" to "Item_Weapon_Vector",
-                        "UZI" to "WeapUZI"
-                ),
-                "Throwable" to mapOf(
+                        "UZI" to "WeapUZI",
                         "Grenade" to "WeapGrenade",
                         "Smoke" to "WeapSmoke",
                         "Flash" to "WeapFlashBang",
-                        "Molotov" to "WeapMolotov"),
+                        "Molotov" to "WeapMolotov"
+                ),
                 "Ammo" to mapOf(
                         "9mm" to "Item_Ammo_9mm",
                         "45mm" to "Item_Ammo_45mm",

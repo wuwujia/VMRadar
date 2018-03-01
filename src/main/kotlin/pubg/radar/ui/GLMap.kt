@@ -252,8 +252,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             F8 -> originYlazy = originYlazy - 0.1f
 
             // Zoom In/Out || Overrides Max/Min Zoom
-            F9 -> camera.zoom = camera.zoom + 0.0125f
-            F10 -> camera.zoom = camera.zoom - 0.0125f
+            F9 -> camera.zoom = camera.zoom + 0.00525f
+            F10 -> camera.zoom = camera.zoom - 0.00525f
 
 
         }
