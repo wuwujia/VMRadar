@@ -548,8 +548,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         scopesToFilter = if (filterScope != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("red-dot", "2x", "8x", "4x", "holo", "DotSight")
+            arrayListOf("DotSight", "Aimpoint", "Holosight", "CQBSS", "ACQG")
         }
+
 
         attachToFilter = if (filterAttach != 1) {
             arrayListOf("")
@@ -560,7 +561,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         weaponsToFilter = if (filterWeapon != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("WeapM16A4", "WeapM416", "WeapKar98k", "WeapSCAR", "WeapAK47", "WeapSKS", "WeapMini14", "WeapDP28", "WeapUMP", "WeapVector", "WeapUZI", "WeapPan")
+            arrayListOf("WeapM16A4", "WeapHK416", "WeapKar98k", "WeapSCAR", "WeapAK47", "WeapSKS", "WeapMini14", "WeapDP28", "WeapUMP", "WeapVector", "WeapUZI", "WeapPan")
         }
 
         healsToFilter = if (filterHeals != 1) {

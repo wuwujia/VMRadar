@@ -2,6 +2,8 @@ package pubg.radar.struct
 
 class Item {
     companion object {
+        // Group
+        // Inner, Outer ?
         private val category = mapOf(
                 "Attach" to mapOf(
                         "Weapon" to mapOf(
@@ -62,24 +64,23 @@ class Item {
                         "MedKit" to "MedKit"
                 ),
                 "Weapon" to mapOf(
-                        "M16A4" to "WeapM16A4",
-                        "M416" to "WeapHK416",
-                        "Kar98k" to "WeapKar98k",
-                        "SCAR-L" to "WeapSCAR",
-                        "AK" to "WeapAK47",
-                        "SKS" to "WeapSKS",
-                        "Mini14" to "WeapMini14",
-                        "DP28" to "DP28",
-                        "UMP" to "WeapUMP",
-                        "Vector" to "Vector",
-                        "Pan" to "Item_Weapon_Pan",
-                        "Sawn" to "WeapSawnOff",
-                        "Vector" to "Item_Weapon_Vector",
-                        "UZI" to "WeapUZI",
-                        "Grenade" to "WeapGrenade",
-                        "Smoke" to "WeapSmoke",
-                        "Flash" to "WeapFlashBang",
-                        "Molotov" to "WeapMolotov"
+                        "WeapM16A4" to "WeapM16A4",
+                        "WeapHK416" to "WeapHK416",
+                        "WeapKar98k" to "WeapKar98k",
+                        "WeapSCAR" to "WeapSCAR",
+                        "WeapAK47" to "WeapAK47",
+                        "WeapSKS" to "WeapSKS",
+                        "WeapMini14" to "WeapMini14",
+                        "WeapDP28" to "WeapDP28",
+                        "WeapUMP" to "WeapUMP",
+                        "WeapVector" to "WeapVector",
+                        "WeapPan" to "WeapPan",
+                        "WeapSawnOff" to "WeapSawnOff",
+                        "WeapUZI" to "WeapUZI",
+                        "WeapGrenade" to "WeapGrenade",
+                        "WeapSmoke" to "WeapSmoke",
+                        "WeapFlash" to "WeapFlashBang",
+                        "WeapMolotov" to "WeapMolotov"
                 ),
                 "Ammo" to mapOf(
                         "9mm" to "Item_Ammo_9mm",
