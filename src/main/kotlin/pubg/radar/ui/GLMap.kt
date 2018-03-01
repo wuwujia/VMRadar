@@ -152,11 +152,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private val aimStartTime = HashMap<NetworkGUID, Long>()
     private val attackLineStartTime = LinkedList<Triple<NetworkGUID, NetworkGUID, Long>>()
     private val pinLocation = Vector2()
-    private var filterWeapon = -1
+    private var filterWeapon = 1
     private var filterAttach = 1
-    private var filterLvl2 = -1
-    private var filterScope = -1
-    private var filterHeals = -1
+    private var filterLvl2 = 1
+    private var filterScope = 1
+    private var filterHeals = 1
     private var filterAmmo = 1
     private var filterThrow = 1
     private var drawcompass = -1
@@ -236,12 +236,12 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             // Icon Filter Keybinds
             HOME -> drawcompass = drawcompass * -1
             NUMPAD_0 -> filterThrow = filterThrow * -1
-            NUMPAD_1 -> filterWeapon = filterWeapon * -1
-            NUMPAD_2 -> filterAttach = filterAttach * -1
-            NUMPAD_3 -> filterLvl2 = filterLvl2 * -1
-            NUMPAD_4 -> filterScope = filterScope * -1
-            NUMPAD_5 -> filterHeals = filterHeals * -1
-            NUMPAD_6 -> filterAmmo = filterAmmo * -1
+            NUMPAD_4 -> filterWeapon = filterWeapon * -1
+            NUMPAD_1 -> filterAttach = filterAttach * -1
+            NUMPAD_5 -> filterLvl2 = filterLvl2 * -1
+            NUMPAD_2 -> filterScope = filterScope * -1
+            NUMPAD_6 -> filterHeals = filterHeals * -1
+            NUMPAD_3 -> filterAmmo = filterAmmo * -1
             NUMPAD_7 -> camera.zoom = 1 / 8f
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
@@ -576,13 +576,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         ammoToFilter = if (filterAmmo != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("Item_Ammo_9mm", "Item_Ammo_45mm", "Item_Ammo_556mm", "Item_Ammo_762mm", "Item_Ammo_300mm")
+            arrayListOf("9mm", "45mm", "556mm", "762mm", "300mm")
         }
 
         throwToFilter = if (filterThrow != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("Grenade")
+            arrayListOf("Grenade","FlashBang","SmokeBomb","Molotov")
         }
 
         level2Filter = if (filterLvl2 != 1) {

@@ -15,13 +15,17 @@ You can't filter level 3 gear (always enabled)
 
 #### Item Filter:
 * HOME -> Show / Hide Compass
-* NUMPAD_0 -> Filter Throwables
-* NUMPAD_1 -> Filter Weapon
-* NUMPAD_2 -> Filter Attachments
-* NUMPAD_3 -> Filter Level 2
-* NUMPAD_4 -> Filter Scopes
-* NUMPAD_5 -> Filter Meds
-* NUMPAD_6 -> Filter Ammo
+NUMPAD_0 -> Filter Throwables
+NUMPAD_1 -> Filter Attachments
+NUMPAD_2 -> Filter Scopes 
+NUMPAD_3 -> Filter Ammo 
+NUMPAD_4 -> Filter Weapons
+NUMPAD_5 -> Filter Level 2 Gear          
+NUMPAD_6 -> Filter Meds
+           
+
+
+
 
 #### Item Offset Tweaker Keybinds
 * F5 -> Item Offset X++
