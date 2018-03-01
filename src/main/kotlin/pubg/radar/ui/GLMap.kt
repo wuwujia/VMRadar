@@ -160,6 +160,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var filterAmmo = 1
     private var filterThrow = 1
     private var drawcompass = -1
+    private var toggleView = -1
     private var scopesToFilter = arrayListOf("")
     private var weaponsToFilter = arrayListOf("")
     private var attachToFilter = arrayListOf("")
@@ -254,6 +255,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             // Zoom In/Out || Overrides Max/Min Zoom
             F9 -> camera.zoom = camera.zoom + 0.00525f
             F10 -> camera.zoom = camera.zoom - 0.00525f
+
+            // Toggle View Line
+            F11 -> toggleView = toggleView * -1
 
 
         }
@@ -897,6 +901,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         if (drawSight) {
             color = sightColor
             arc(x, y, directionRadius, dir - fov / 2, fov, 6)
+
+            if(toggleView == 1){
+            color = Color(1.0f, 1.0f, 0.0f, 1.0f)
+            arc(x, y, directionRadius * 20f, dir - 0.25f, 0.5f, 6)}
         }
     }
 

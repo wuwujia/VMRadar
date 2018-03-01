@@ -35,6 +35,8 @@ You can't filter level 3 gear (always enabled)
 * NUMPAD_9 -> Looting
 * F9 ->  Camera Zoom ++
 * F10 -> Camera Zoom --
+* F11 -> Toggle View Line
+
 
 ### Online Mode:
 `java -jar target\pubg-radar-1.0-SNAPSHOT-jar-with-dependencies.jar "Middle PC IP" PortFilter "Game PC IP"`

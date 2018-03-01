@@ -100,7 +100,7 @@ class Icons(sheet: Texture, size: Int) {
             "DotSight" to arrayOf(0, 12),
             "Holosight" to arrayOf(1, 12),
             "Aimpoint" to arrayOf(2, 12),
-            "ACOG" to arrayOf(3, 12),
+            "ACQG" to arrayOf(3, 12),
             "CQBSS" to arrayOf(4, 12),
             "15x" to arrayOf(5, 12)
     )
