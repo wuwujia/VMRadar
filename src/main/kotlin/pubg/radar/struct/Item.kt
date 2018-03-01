@@ -45,11 +45,11 @@ class Item {
                                         )
                                 ),
                                 "Upper" to mapOf(
-                                        "DotSight" to "red-dot",
-                                        "Aimpoint" to "2x",
-                                        "Holosight" to "holo",
-                                        "ACOG" to "4x",
-                                        "CQBSS" to "8x"
+                                        "DotSight" to "DotSight",
+                                        "Aimpoint" to "Aimpoint",
+                                        "Holosight" to "Holosight",
+                                        "ACOG" to "ACQG",
+                                        "CQBSS" to "CQBSS"
                                 )
                         )
                 ),
@@ -64,20 +64,24 @@ class Item {
                 "Weapon" to mapOf(
                         "M16A4" to "WeapM16A4",
                         "M416" to "WeapHK416",
-                        "Kar98k" to "98k",
-                        "SCAR-L" to "Scar",
+                        "Kar98k" to "WeapKar98k",
+                        "SCAR-L" to "WeapSCAR",
                         "AK" to "WeapAK47",
-                        "SKS" to "Sks",
-                        "Grenade" to "Grenade",
-                        "Mini14" to "Mini",
+                        "SKS" to "WeapSKS",
+                        "Mini14" to "WeapMini14",
                         "DP28" to "DP28",
-                        "UMP" to "Ump",
+                        "UMP" to "WeapUMP",
                         "Vector" to "Vector",
-                        "Pan" to "Pan",
+                        "Pan" to "Item_Weapon_Pan",
                         "Sawn" to "WeapSawnOff",
                         "Vector" to "Item_Weapon_Vector",
                         "UZI" to "WeapUZI"
                 ),
+                "Throwable" to mapOf(
+                        "Grenade" to "WeapGrenade",
+                        "Smoke" to "WeapSmoke",
+                        "Flash" to "WeapFlashBang",
+                        "Molotov" to "WeapMolotov"),
                 "Ammo" to mapOf(
                         "9mm" to "Item_Ammo_9mm",
                         "45mm" to "Item_Ammo_45mm",

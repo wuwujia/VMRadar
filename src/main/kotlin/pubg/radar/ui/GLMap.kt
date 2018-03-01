@@ -2,22 +2,10 @@ package pubg.radar.ui
 
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input.Buttons.*
-import com.badlogic.gdx.Input.Keys.HOME
-import com.badlogic.gdx.Input.Keys.NUMPAD_0
-import com.badlogic.gdx.Input.Keys.NUMPAD_1
-import com.badlogic.gdx.Input.Keys.NUMPAD_2
-import com.badlogic.gdx.Input.Keys.NUMPAD_3
-import com.badlogic.gdx.Input.Keys.NUMPAD_4
-import com.badlogic.gdx.Input.Keys.NUMPAD_5
-import com.badlogic.gdx.Input.Keys.NUMPAD_6
-import com.badlogic.gdx.Input.Keys.NUMPAD_7
-import com.badlogic.gdx.Input.Keys.NUMPAD_8
-import com.badlogic.gdx.Input.Keys.NUMPAD_9
-import com.badlogic.gdx.Input.Keys.F5
-import com.badlogic.gdx.Input.Keys.F6
-import com.badlogic.gdx.Input.Keys.F7
-import com.badlogic.gdx.Input.Keys.F8
+import com.badlogic.gdx.Input.Buttons.MIDDLE
+import com.badlogic.gdx.Input.Buttons.RIGHT
+import com.badlogic.gdx.Input.Buttons.LEFT
+import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
@@ -200,22 +188,21 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
     override fun scrolled(amount: Int): Boolean {
 
-        if (camera.zoom > 0.05f && camera.zoom < 1.05f) {
+        if (camera.zoom > 0.04f && camera.zoom < 1.09f) {
             camera.zoom *= 1.05f.pow(amount)
         } else {
-            if (camera.zoom < 0.05f) {
-                camera.zoom = 0.050001f
+            if (camera.zoom < 0.04f) {
+                camera.zoom = 0.041f
                 println("Max Zoom")
             }
-            if (camera.zoom > 0.90f) {
-                camera.zoom = 0.899991f
+            if (camera.zoom > 1.09f) {
+                camera.zoom = 1.089f
                 println("Min Zoom")
             }
         }
 
         return true
     }
-
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         when (button) {
@@ -245,6 +232,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
         when (keycode) {
 
+            // Icon Filter Keybinds
             HOME -> drawcompass = drawcompass * -1
             NUMPAD_0 -> filterThrow = filterThrow * -1
             NUMPAD_1 -> filterWeapon = filterWeapon * -1
@@ -256,10 +244,16 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_7 -> camera.zoom = 1 / 8f
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
+
+            // Item Offset Tweaker Keybinds
             F5 -> originXlazy = originXlazy + 0.1f
             F6 -> originXlazy = originXlazy - 0.1f
             F7 -> originYlazy = originYlazy + 0.1f
             F8 -> originYlazy = originYlazy - 0.1f
+
+            // Zoom In/Out || Overrides Max/Min Zoom
+            F9 -> camera.zoom = camera.zoom + 0.0125f
+            F10 -> camera.zoom = camera.zoom - 0.0125f
 
 
         }
@@ -471,8 +465,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                 hubFont.draw(spriteBatch, "${TotalWarningDuration.toInt() - ElapsedWarningDuration.toInt()}", windowWidth - 370f - layout.width / 2, windowHeight - 29f)
             } else {
                 spriteBatch.draw(hubpanel, windowWidth - 390f + 130f, windowHeight - 60f)
-                hubFontShadow.draw(spriteBatch, "SECS", windowWidth - 345f + 130f, windowHeight - 29f)
-                hubFont.draw(spriteBatch, "${TotalWarningDuration.toInt() - ElapsedWarningDuration.toInt()}", windowWidth - 370f + 130f - layout.width / 2, windowHeight - 29f)
+                hubFontShadow.draw(spriteBatch, "SECS", windowWidth - 345f + 128f, windowHeight - 29f)
+                hubFont.draw(spriteBatch, "${TotalWarningDuration.toInt() - ElapsedWarningDuration.toInt()}", windowWidth - 370f + 128f - layout.width / 2, windowHeight - 29f)
 
             }
 
@@ -566,7 +560,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         weaponsToFilter = if (filterWeapon != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("M16A4", "M416", "98k", "Scar", "Ak", "Sks", "Mini", "DP28", "Ump", "Vector", "Pan")
+            arrayListOf("WeapM16A4", "WeapM416", "WeapKar98k", "WeapSCAR", "WeapAK47", "WeapSKS", "WeapMini14", "WeapDP28", "WeapUMP", "WeapVector", "WeapUZI", "WeapPan")
         }
 
         healsToFilter = if (filterHeals != 1) {
@@ -578,13 +572,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         ammoToFilter = if (filterAmmo != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("9", "45", "556", "762", "300")
+            arrayListOf("Item_Ammo_9mm", "Item_Ammo_45mm", "Item_Ammo_556mm", "Item_Ammo_762mm", "Item_Ammo_300mm")
         }
 
         throwToFilter = if (filterThrow != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("Grenade", "Molotov", "Smoke", "Flash")
+            arrayListOf("WeapGrenade", "WeapMolotov", "WeapSmoke", "WeapFlashBang")
         }
 
         level2Filter = if (filterLvl2 != 1) {
