@@ -552,7 +552,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         scopesToFilter = if (filterScope != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("DotSight", "Aimpoint", "Holosight", "CQBSS", "ACQG")
+            arrayListOf("DotSight", "Aimpoint", "Holosight", "CQBSS", "ACOG")
         }
 
 

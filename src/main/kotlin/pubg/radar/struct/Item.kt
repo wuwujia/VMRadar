@@ -50,7 +50,7 @@ class Item {
                                         "DotSight" to "DotSight",
                                         "Aimpoint" to "Aimpoint",
                                         "Holosight" to "Holosight",
-                                        "ACQG" to "ACQG",
+                                        "ACOG" to "ACOG",
                                         "CQBSS" to "CQBSS"
                                 )
                         )
