@@ -64,23 +64,20 @@ class Item {
                         "MedKit" to "MedKit"
                 ),
                 "Weapon" to mapOf(
-                        "WeapM16A4" to "WeapM16A4",
-                        "WeapHK416" to "WeapHK416",
-                        "WeapKar98k" to "WeapKar98k",
-                        "WeapSCAR" to "WeapSCAR",
-                        "WeapAK47" to "WeapAK47",
-                        "WeapSKS" to "WeapSKS",
-                        "WeapMini14" to "WeapMini14",
-                        "WeapDP28" to "WeapDP28",
-                        "WeapUMP" to "WeapUMP",
-                        "WeapVector" to "WeapVector",
-                        "WeapPan" to "WeapPan",
-                        "WeapSawnOff" to "WeapSawnOff",
-                        "WeapUZI" to "WeapUZI",
-                        "WeapGrenade" to "WeapGrenade",
-                        "WeapSmoke" to "WeapSmoke",
-                        "WeapFlash" to "WeapFlashBang",
-                        "WeapMolotov" to "WeapMolotov"
+                        "M16A4" to "M16A4",
+                        "HK416" to "HK416",
+                        "Kar98k" to "Kar98k",
+                        "SCAR" to "SCAR-L",
+                        "AK47" to "AK47",
+                        "SKS" to "SKS",
+                        "Mini14" to "Mini14",
+                        "DP28" to "DP28",
+                        "UMP" to "UMP",
+                        "Vector" to "Vector",
+                        "Pan" to "Pan",
+                        "SawnOff" to "SawnOff",
+                        "UZI" to "UZI",
+                        "Grenade" to "Grenade"
                 ),
                 "Ammo" to mapOf(
                         "9mm" to "Item_Ammo_9mm",
@@ -109,7 +106,13 @@ class Item {
                                 "02" to mapOf("Lv2" to "Helm2")
                         ),
                         "G" to mapOf("01" to mapOf("Lv3" to "Helm3"))
+                ),
+                "Other" to mapOf(
+                        "Smoke" to "Smoke",
+                        "FlashBang" to "FlashBang",
+                        "Molotov" to "Molotov"
                 )
+
         ) as Map<String, Any>
 
         /**

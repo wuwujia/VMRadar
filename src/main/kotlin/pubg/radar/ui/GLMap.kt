@@ -141,8 +141,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var littleFontShadow: BitmapFont
 
 
-    private val tileZooms = listOf("256", "512", "1024", "2048", "4096", "8192")
-    private val tileRowCounts = listOf(1, 2, 4, 8, 16, 32)
+    private val tileZooms = listOf("256", "512", "1024", "2048" ,"4096", "8192")
+    private val tileRowCounts = listOf(1, 2, 4, 8 , 16, 32)
     private val tileSizes = listOf(819200f, 409600f, 204800f, 102400f, 51200f, 25600f)
 
     private val layout = GlyphLayout()
@@ -561,7 +561,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         weaponsToFilter = if (filterWeapon != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("WeapM16A4", "WeapHK416", "WeapKar98k", "WeapSCAR", "WeapAK47", "WeapSKS", "WeapMini14", "WeapDP28", "WeapUMP", "WeapVector", "WeapUZI", "WeapPan")
+            arrayListOf("M16A4", "HK416", "Kar98k", "SCAR-L", "AK47", "SKS", "Mini14", "DP28", "UMP", "Vector", "UZI", "Pan")
         }
 
         healsToFilter = if (filterHeals != 1) {
@@ -579,7 +579,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         throwToFilter = if (filterThrow != 1) {
             arrayListOf("")
         } else {
-            arrayListOf("WeapGrenade", "WeapMolotov", "WeapSmoke", "WeapFlashBang")
+            arrayListOf("Grenade")
         }
 
         level2Filter = if (filterLvl2 != 1) {
