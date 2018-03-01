@@ -47,7 +47,7 @@ You can replay a PCAP file in offline mode:
 
 ## Build, Install and Run
 
-1. Install VMWare Workstation
+1. Install VMWare Workstation Pro
 2. Setup your VM in Bridged Mode, replicate physical.
 3. Install [Maven](https://maven.apache.org/install.html) on your VM
 4. Add Maven to your environment PATH, screenshot below.
