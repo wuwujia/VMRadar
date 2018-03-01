@@ -62,7 +62,7 @@ class Icons(sheet: Texture, size: Int) {
             // 8 ARs
             "M16A4" to arrayOf(0, 8),
             "AK47" to arrayOf(1, 8),
-            "SCAR" to arrayOf(2, 8),
+            "SCAR-L" to arrayOf(2, 8),
             "HK416" to arrayOf(3, 8),
             "Groza" to arrayOf(4, 8),
             "Aug" to arrayOf(5, 8),

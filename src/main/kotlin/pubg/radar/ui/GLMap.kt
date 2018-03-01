@@ -157,8 +157,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var filterLvl2 = -1
     private var filterScope = -1
     private var filterHeals = -1
-    private var filterAmmo = -1
-    private var filterThrow = -1
+    private var filterAmmo = 1
+    private var filterThrow = 1
     private var drawcompass = -1
     private var scopesToFilter = arrayListOf("")
     private var weaponsToFilter = arrayListOf("")

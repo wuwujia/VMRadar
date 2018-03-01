@@ -67,7 +67,7 @@ class Item {
                         "M16A4" to "M16A4",
                         "HK416" to "HK416",
                         "Kar98k" to "Kar98k",
-                        "SCAR" to "SCAR-L",
+                        "SCAR-L" to "SCAR-L",
                         "AK47" to "AK47",
                         "SKS" to "SKS",
                         "Mini14" to "Mini14",
