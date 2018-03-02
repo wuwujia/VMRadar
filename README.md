@@ -64,7 +64,6 @@ You can replay a PCAP file in offline mode:
 6. Use the command prompt to go to your VMRadar directory (with the src folder)
 7. type `mvn verify install` into the command prompt.
 6. Change your IP addresses in the batch file, It will crash if they are wrong.
-7. Do the extra step below in the Compatibility tab in the Properties.
 8. Run the batch file.
 
 ----------------- 
@@ -95,9 +94,6 @@ java -jar target\pubg-radar-1.0-SNAPSHOT-jar-with-dependencies.jar %_IPaddr% Por
 
 #### JAVA_HOME
 ![Imgur](https://i.imgur.com/4zT1YNR.png)
-
-#### COMPATIBILITY
-![Imgur](https://i.imgur.com/Oz6HoDe.png)
 
 
 #### You can find detailed instructions on how to run a maven project [here](https://maven.apache.org/run.html)
