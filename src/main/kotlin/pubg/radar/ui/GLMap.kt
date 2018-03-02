@@ -132,6 +132,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var alarmSound: Sound
     private lateinit var hubpanel: Texture
     private lateinit var hubpanelblank: Texture
+    private lateinit var vehicle: Texture
+    private lateinit var boat: Texture
+    private lateinit var bike: Texture
     private lateinit var hubFont: BitmapFont
     private lateinit var hubFontShadow: BitmapFont
     private lateinit var espFont: BitmapFont
@@ -303,6 +306,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         hubpanelblank = Texture(Gdx.files.internal("images/hub_panel_blank_long.png"))
         corpseboximage = Texture(Gdx.files.internal("icons/box.png"))
         airdropimage = Texture(Gdx.files.internal("icons/airdrop.png"))
+        vehicle = Texture(Gdx.files.internal("images/vehicle.png"))
+        boat = Texture(Gdx.files.internal("images/boat.png"))
+        bike = Texture(Gdx.files.internal("images/bike.png"))
         iconImages = Icons(Texture(Gdx.files.internal("images/item-sprites.png")), 64)
         mapErangelTiles = mutableMapOf()
         mapMiramarTiles = mutableMapOf()
@@ -523,8 +529,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
             safeZoneHint()
             drawPlayerInfos(typeLocation[Player])
-            val profileText = "Weapon: ${filterWeapon}"
-            layout.setText(compaseFontShadow, profileText)
+            drawVehiclesInfo(typeLocation)
+
+
 
             if (drawcompass == 1) {
                 layout.setText(compaseFont, "0")
@@ -676,8 +683,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
             drawAPawn(typeLocation, selfX, selfY, zoom, currentTime)
         }
-
         drawAttackLine(currentTime)
+       // drawVehiclesInfo(typeLocation)
+
 
         preSelfCoords.set(selfX, selfY)
         preDirection = selfDir
@@ -752,6 +760,111 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         Gdx.gl.glLineWidth(1f)
     }
 
+
+
+    fun drawVehiclesInfo(typeLocation: EnumMap<Archetype, MutableList<renderInfo>>) {
+        val iconScale = 2f / camera.zoom
+                for ((type, actorInfos) in typeLocation) {
+                        when (type) {
+                                TwoSeatBoat -> actorInfos?.forEach {
+                                        val (actor, x, y, dir) = it
+                                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                                    spriteBatch.draw(
+                                            boat,
+                                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                            4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                            dir * -1, 0, 0, 64, 37, true, false
+                                    )
+
+                                    }
+                               SixSeatBoat -> actorInfos?.forEach {
+                                        val (actor, x, y, dir) = it
+                                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                                   spriteBatch.draw(
+                                           boat,
+                                           sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                           4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                           dir * -1, 0, 0, 64, 37, true, false
+                                   )
+
+                                    }
+                               TwoSeatCar -> actorInfos?.forEach {
+                                        val (actor, x, y, dir) = it
+                                        val (sx, sy) = Vector2(x, y).mapToWindow()
+
+                                           spriteBatch.draw(
+                                           bike,
+                                           sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                           4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
+                                                   dir * -1, 0, 0, 64, 50, true, false
+                                   )
+
+                               }
+                               ThreeSeatCar -> actorInfos?.forEach {
+                                    val (actor, x, y, dir) = it
+                                     val (sx, sy) = Vector2(x, y).mapToWindow()
+                                       val selfDir = Vector2 (x,y).sub(preSelfCoords)
+                                       if(selfDir.len() < 1e-8) selfDir.set(preDirection)
+                                   spriteBatch.draw(
+                                           bike,
+                                           sx + 2, windowHeight - sy - 2, 4.toFloat() / 2, 4.toFloat() / 2,
+                                           4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                           dir * -1, 0, 0, 64, 50, true, false
+                                   )
+
+
+                               }
+                               FourSeatCar -> actorInfos?.forEach {
+                                       val (actor, x, y, dir) = it
+                                       val (sx, sy) = Vector2(x, y).mapToWindow()
+                                   spriteBatch.draw(
+                                           vehicle,
+                                           sx + 10, windowHeight - sy,
+                                           4.toFloat() / 2, 4.toFloat() / 2,
+                                           4.toFloat(), 4.toFloat(),
+                                           iconScale / 2, iconScale / 2,
+                                           dir * -1, 0, 0, 128, 64, false, false
+                                   )
+                               }
+                               SixSeatCar -> actorInfos?.forEach {
+                                        val (actor, x, y, dir) = it
+                                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                                   spriteBatch.draw(
+                                           vehicle,
+                                           sx +10, windowHeight - sy,
+                                           4.toFloat() / 2, 4.toFloat() / 2,
+                                           4.toFloat(), 4.toFloat(),
+                                           iconScale / 2, iconScale / 2,
+                                           dir * -1, 0, 0, 128, 64, false, false
+                                   )
+                                }
+                              Plane -> actorInfos?.forEach {
+                                       val (actor, x, y, dir) = it
+                                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                                       compaseFont.draw(spriteBatch, "plane", sx + 2, windowHeight - sy - 2)
+
+                                   }
+                               Parachute -> actorInfos?.forEach {
+                                       val (actor, x, y, dir) = it
+                                       val (sx, sy) = Vector2(x, y).mapToWindow()
+                                       compaseFont.draw(spriteBatch, "parachute", sx + 2, windowHeight - sy - 2)
+                                   }
+                                Grenade -> actorInfos?.forEach {
+                                        val (actor, x, y, dir) = it
+                                       val (sx, sy) = Vector2(x, y).mapToWindow()
+                                       compaseFont.draw(spriteBatch, "grenade", sx + 2, windowHeight - sy - 2)
+                                    }
+
+
+
+                               else -> {
+                                       //nothing
+                                    }
+                            }
+                    }
+            }
+
+
     private fun ShapeRenderer.drawAPawn(typeLocation: EnumMap<Archetype, MutableList<renderInfo>>,
                                         selfX: Float, selfY: Float,
                                         zoom: Float,
@@ -791,7 +904,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                     drawPlayer(WHITE, it, false)
                 }
                 else -> {
-                    return
+                   return
                 }
             }
         }
@@ -926,15 +1039,14 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         val (actor, x, y, dir) = actorInfo
         val vx = actor!!.velocity.x
         val vy = actor.velocity.y
-
         val dirVector = dirUnitVector.cpy().rotate(dir).scl(height / 2)
         color = BLACK
         val backVector = dirVector.cpy().nor().scl(height / 2 + 200f)
-        rectLine(x - backVector.x, y - backVector.y,
-                x + backVector.x, y + backVector.y, width + 400f)
-        color = _color
-        rectLine(x - dirVector.x, y - dirVector.y,
-                x + dirVector.x, y + dirVector.y, width)
+//        rectLine(x - backVector.x, y - backVector.y,
+//                x + backVector.x, y + backVector.y, width + 400f)
+//        color = _color
+//        rectLine(x - dirVector.x, y - dirVector.y,
+//                x + dirVector.x, y + dirVector.y, width)
 
         if (actor.beAttached || vx * vx + vy * vy > 40) {
             color = playerColor
@@ -964,8 +1076,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         littleFont.dispose()
         corpseboximage.dispose()
         airdropimage.dispose()
+        vehicle.dispose()
         iconImages.iconSheet.dispose()
-        littleFontShadow.dispose()
+        compaseFont.dispose()
+        compaseFontShadow.dispose()
 
         var cur = 0
         tileZooms.forEach {
