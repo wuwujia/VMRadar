@@ -104,12 +104,12 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     fun show() {
         val config = Lwjgl3ApplicationConfiguration()
         config.setTitle("")
-        config.useOpenGL3(false, 3, 2)
+        config.useOpenGL3(false, 2, 1)
         config.setWindowedMode(800, 800)
         config.setResizable(true)
         config.useVsync(false)
         config.setIdleFPS(120)
-        config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 8)
+        config.setBackBufferConfig(4, 4, 4, 4, 16, 2, 4)
         Lwjgl3Application(this, config)
     }
 
@@ -245,6 +245,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_7 -> camera.zoom = 1 / 8f
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
+
 
             // Item Offset Tweaker Keybinds
             F5 -> originXlazy = originXlazy + 0.1f
