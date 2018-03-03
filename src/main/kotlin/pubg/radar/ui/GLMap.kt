@@ -841,7 +841,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                             2.toFloat() / 2, 2.toFloat() / 2,
                             2.toFloat(), 2.toFloat(),
                             iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 64, 64, false, false
+                            dir * -1, 0, 0, 128, 128, false, false
                     )
                 }
                 SixSeatCar -> actorInfos?.forEach {
@@ -853,7 +853,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                             2.toFloat() / 2, 2.toFloat() / 2,
                             2.toFloat(), 2.toFloat(),
                             iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 64, 64, false, false
+                            dir * -1, 0, 0, 128, 128, false, false
                     )
                 }
                 Player -> actorInfos?.forEach {
