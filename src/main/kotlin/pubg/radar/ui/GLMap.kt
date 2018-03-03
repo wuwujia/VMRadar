@@ -135,6 +135,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var arrow: Texture
     private lateinit var player: Texture
     private lateinit var parachute: Texture
+    private lateinit var grenade: Texture
     private lateinit var hubFont: BitmapFont
     private lateinit var hubFontShadow: BitmapFont
     private lateinit var espFont: BitmapFont
@@ -177,9 +178,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var screenOffsetX = 0f
     private var screenOffsetY = 0f
 
-    // Origin Offset
-    private var originYlazy = 1.15000014f
-    private var originXlazy = -0.45000014f
+    // Item Offset
+    private var itemXlazy = 0f
+    private var itemYlazy = 0f
 
     private fun Vector2.windowToMap() =
             Vector2(selfCoords.x + (x - windowWidth / 2.0f) * camera.zoom * windowToMapUnit + screenOffsetX,
@@ -251,10 +252,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
 
         // Item Offset Tweaker Keybinds
-            F5 -> originXlazy = originXlazy + 0.1f
-            F6 -> originXlazy = originXlazy - 0.1f
-            F7 -> originYlazy = originYlazy + 0.1f
-            F8 -> originYlazy = originYlazy - 0.1f
+            F5 -> itemXlazy = itemXlazy + 1f
+            F6 -> itemXlazy = itemXlazy - 1f
+            F7 -> itemYlazy = itemYlazy + 1f
+            F8 -> itemYlazy = itemYlazy - 1f
 
         // Zoom In/Out || Overrides Max/Min Zoom
             F9 -> camera.zoom = camera.zoom + 0.00525f
@@ -299,6 +300,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             position.set(mapWidth / 2, mapWidth / 2, 0f)
             update()
         }
+
         itemCamera = OrthographicCamera(initialWindowWidth, initialWindowWidth)
         fontCamera = OrthographicCamera(initialWindowWidth, initialWindowWidth)
         alarmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Alarm.wav"))
@@ -312,6 +314,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         parachute = Texture(Gdx.files.internal("images/parachute.png"))
         boat = Texture(Gdx.files.internal("images/boat.png"))
         bike = Texture(Gdx.files.internal("images/bike.png"))
+        grenade = Texture(Gdx.files.internal("images/grenade.png"))
         iconImages = Icons(Texture(Gdx.files.internal("images/item-sprites.png")), 64)
         mapErangelTiles = mutableMapOf()
         mapMiramarTiles = mutableMapOf()
@@ -439,9 +442,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         shapeRenderer.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
 
-
         drawCircles()
-
 
         val typeLocation = EnumMap<Archetype, MutableList<renderInfo>>(Archetype::class.java)
         for ((_, actor) in visualActors)
@@ -532,8 +533,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             safeZoneHint()
             drawPlayerNames(typeLocation[Player])
 
-       //     drawMyself(tuple4(null, selfX, selfY, selfDir.angle()))
-
+            //     drawMyself(tuple4(null, selfX, selfY, selfDir.angle()))
 
 
             if (drawcompass == 1) {
@@ -555,7 +555,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                 compaseFont.draw(spriteBatch, "315", windowWidth / 2 - layout.width / 2 - 106, windowHeight / 2 + layout.height / 2 + 106)          // NW
             }
             littleFont.draw(spriteBatch, "$pinDistance", x, windowHeight - y)
-
 
 
         }
@@ -614,7 +613,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         val items = it.second
                         val (sx, sy) = Vector2(x, y).mapToWindow()
                         val syFix = windowHeight - sy
-                        // println(items)
+
                         items.forEach {
                             if (it !in weaponsToFilter) {
                                 if (it !in scopesToFilter) {
@@ -623,24 +622,12 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                             if (it !in ammoToFilter) {
                                                 if (it !in healsToFilter) {
                                                     if (it !in throwToFilter) {
-                                                        if (
-                                                                iconScale > 20 &&
-                                                                sx > 0 && sx < windowWidth &&
-                                                                syFix > 0 && syFix < windowHeight
-                                                        ) {
+                                                        if (iconScale > 20 && sx > 0 && sx < windowWidth && syFix > 0 && syFix < windowHeight) {
                                                             iconImages.setIcon(it)
-                                                            draw(
-                                                                    iconImages.icon,
-                                                                    sx - iconScale / 2,  // y
-                                                                    syFix + iconScale / 2, // x
-                                                                    originXlazy,     // origin x
-                                                                    originYlazy,     // origin y
-                                                                    1f,      // height
-                                                                    1f,     // width
-                                                                    iconScale,     // scale
-                                                                    iconScale,     // scale
-                                                                    0f    // rotation we need this for car
-                                                            )
+                                                            draw(iconImages.icon, sx + 8 + itemXlazy, syFix -8 - itemYlazy,
+                                                                    1f / 2, 1f / 2,
+                                                                    2f / 2, 2f / 2,
+                                                                    iconScale, iconScale, 0f)
                                                         }
                                                     }
                                                 }
@@ -651,6 +638,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                             }
                         }
                     }
+
             //Draw Corpse Icon
             corpseLocation.values.forEach {
                 val (x, y) = it
@@ -672,13 +660,16 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         false, true)
             }
 
+
+
             drawMyself(tuple4(null, selfX, selfY, selfDir.angle()))
             drawPawns(typeLocation)
 
+
         }
 
-        val zoom = camera.zoom
 
+        val zoom = camera.zoom
         Gdx.gl.glEnable(GL20.GL_BLEND)
         draw(Filled) {
             color = redZoneColor
@@ -689,28 +680,28 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
             color = pinColor
             circle(pinLocation, pinRadius * zoom, 10)
+
+
         }
 
         drawAttackLine(currentTime)
+
         preSelfCoords.set(selfX, selfY)
         preDirection = selfDir
         Gdx.gl.glDisable(GL20.GL_BLEND)
     }
 
 
+    private fun drawMyself(actorInfo: renderInfo) {
+        val (actor, x, y, dir) = actorInfo
+        val (sx, sy) = Vector2(x, y).mapToWindow()
+        spriteBatch.draw(
+                player,
+                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                dir * -1, 0, 0, 64, 64, true, false)
 
-     private fun drawMyself (actorInfo: renderInfo){
-         val (actor, x, y, dir) = actorInfo
-         val (sx, sy) = Vector2(x, y).mapToWindow()
-         spriteBatch.draw(
-                 player,
-                 sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                 4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                 dir * -1, 0, 0, 64, 64, true, false)
-     }
-
-
-
+    }
 
     private fun drawAttackLine(currentTime: Long) {
         while (attacks.isNotEmpty()) {
@@ -775,7 +766,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                 color = safeDirectionColor
                 line(selfCoords, PoisonGasWarningPosition)
             }
+
         }
+
         Gdx.gl.glLineWidth(1f)
     }
 
@@ -864,43 +857,50 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
 
-                        if(isTeamMate(actor)){
+                        if (isTeamMate(actor)) {
                             spriteBatch.draw(
                                     player,
                                     sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                                     4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                                     dir * -1, 0, 0, 64, 64, true, false)
-                        }else{
-                        spriteBatch.draw(
-                                arrow,
-                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                dir * -1, 0, 0, 64, 64, true, false)
-                    }}
+                        } else {
+                            spriteBatch.draw(
+                                    arrow,
+                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                    dir * -1, 0, 0, 64, 64, true, false)
+                        }
+                    }
 
                 }
                 Parachute -> actorInfos?.forEach {
                     for ((type, actorInfos) in typeLocation) {
 
-                                val (actor, x, y, dir) = it
-                                val (sx, sy) = Vector2(x, y).mapToWindow()
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
 
-                                spriteBatch.draw(
-                                        parachute,
-                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
+                        spriteBatch.draw(
+                                parachute,
+                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                dir * -1, 0, 0, 64, 64, true, false)
                     }
                 }
                 Grenade -> actorInfos?.forEach {
-                    // Will Fix This Soon
-                  //  drawPlayer(WHITE, it, false)
+                    val (actor, x, y, dir) = it
+                    val (sx, sy) = Vector2(x, y).mapToWindow()
+                    spriteBatch.draw(
+                            grenade,
+                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                            4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                            dir * -1, 0, 0, 16, 16, true, false)
                 }
 
                 else -> {
                     //nothing
                 }
             }
+
         }
     }
 
@@ -974,16 +974,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             }
         }
         return false
-    }
-
-    private fun ShapeRenderer.drawVehicle(actorInfo: renderInfo) {
-        val (actor, x, y, dir) = actorInfo
-        val vx = actor!!.velocity.x
-        val vy = actor.velocity.y
-        if (actor.beAttached || vx * vx + vy * vy > 40) {
-            color = playerColor
-            circle(x, y, playerRadius * camera.zoom, 10)
-        }
     }
 
     override fun resize(width: Int, height: Int) {
