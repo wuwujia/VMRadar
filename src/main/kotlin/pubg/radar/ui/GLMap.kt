@@ -386,7 +386,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         generator.dispose()
     }
 
-    private val dirUnitVector = Vector2(1f, 0f)
     override fun render() {
         Gdx.gl.glClearColor(0.417f, 0.417f, 0.417f, 0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
@@ -443,6 +442,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
         drawCircles()
 
+
         val typeLocation = EnumMap<Archetype, MutableList<renderInfo>>(Archetype::class.java)
         for ((_, actor) in visualActors)
             typeLocation.compute(actor.Type) { _, v ->
@@ -454,7 +454,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             }
 
         paint(fontCamera.combined) {
-
             // NUMBER PANEL
             val numText = "$NumAlivePlayers"
             layout.setText(hubFont, numText)
@@ -532,7 +531,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
             safeZoneHint()
             drawPlayerNames(typeLocation[Player])
-            drawVehiclesInfo(typeLocation)
+
+       //     drawMyself(tuple4(null, selfX, selfY, selfDir.angle()))
 
 
 
@@ -556,7 +556,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             }
             littleFont.draw(spriteBatch, "$pinDistance", x, windowHeight - y)
 
-            drawMyself(tuple4(null, selfX, selfY, selfDir.angle()))
+
 
         }
 
@@ -603,8 +603,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         } else {
             arrayListOf("Bag2", "Arm2", "Helm2")
         }
+
+
         val iconScale = 2f / camera.zoom
         paint(itemCamera.combined) {
+
             droppedItemLocation.values.asSequence().filter { it.second.isNotEmpty() }
                     .forEach {
                         val (x, y) = it.first
@@ -668,6 +671,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         0, 0, 64, 64,
                         false, true)
             }
+
+            drawMyself(tuple4(null, selfX, selfY, selfDir.angle()))
+            drawPawns(typeLocation)
 
         }
 
@@ -774,7 +780,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     }
 
 
-    fun drawVehiclesInfo(typeLocation: EnumMap<Archetype, MutableList<renderInfo>>) {
+    fun drawPawns(typeLocation: EnumMap<Archetype, MutableList<renderInfo>>) {
         val iconScale = 2f / camera.zoom
         for ((type, actorInfos) in typeLocation) {
             when (type) {
