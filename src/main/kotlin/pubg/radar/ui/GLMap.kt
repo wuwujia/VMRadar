@@ -109,7 +109,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         config.setResizable(true)
         config.useVsync(false)
         config.setIdleFPS(120)
-        config.setBackBufferConfig(4, 4, 4, 4, 16, 2, 4)
+        config.setBackBufferConfig(4, 4, 4, 4, 16, 4, 8)
         Lwjgl3Application(this, config)
     }
 
@@ -819,11 +819,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                        val (sx, sy) = Vector2(x, y).mapToWindow()
                                    spriteBatch.draw(
                                            vehicle,
-                                           sx + 10, windowHeight - sy,
-                                           4.toFloat() / 2, 4.toFloat() / 2,
-                                           4.toFloat(), 4.toFloat(),
+                                           sx +2, windowHeight - sy - 2,
+                                           2.toFloat() / 2, 2.toFloat() / 2,
+                                           2.toFloat(), 2.toFloat(),
                                            iconScale / 2, iconScale / 2,
-                                           dir * -1, 0, 0, 128, 64, false, false
+                                           dir * -1, 0, 0, 64, 64, false, false
                                    )
                                }
                                SixSeatCar -> actorInfos?.forEach {
@@ -831,11 +831,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                         val (sx, sy) = Vector2(x, y).mapToWindow()
                                    spriteBatch.draw(
                                            vehicle,
-                                           sx +10, windowHeight - sy,
-                                           4.toFloat() / 2, 4.toFloat() / 2,
-                                           4.toFloat(), 4.toFloat(),
+                                           sx +2, windowHeight - sy - 2,
+                                           2.toFloat() / 2, 2.toFloat() / 2,
+                                           2.toFloat(), 2.toFloat(),
                                            iconScale / 2, iconScale / 2,
-                                           dir * -1, 0, 0, 128, 64, false, false
+                                           dir * -1, 0, 0, 64, 64, false, false
                                    )
                                 }
                               Plane -> actorInfos?.forEach {
@@ -872,22 +872,22 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         for ((type, actorInfos) in typeLocation) {
             when (type) {
                 TwoSeatBoat -> actorInfos?.forEach {
-                    drawVehicle(boatColor, it, vehicle2Width, vehicle6Width)
+                    drawVehicle(it)
                 }
                 SixSeatBoat -> actorInfos?.forEach {
-                    drawVehicle(boatColor, it, vehicle4Width, vehicle6Width)
+                    drawVehicle(it)
                 }
                 TwoSeatCar -> actorInfos?.forEach {
-                    drawVehicle(carColor, it, vehicle2Width, vehicle6Width)
+                    drawVehicle(it)
                 }
                 ThreeSeatCar -> actorInfos?.forEach {
-                    drawVehicle(carColor, it, vehicle2Width, vehicle6Width)
+                    drawVehicle(it)
                 }
                 FourSeatCar -> actorInfos?.forEach {
-                    drawVehicle(carColor, it, vehicle4Width, vehicle6Width)
+                    drawVehicle(it)
                 }
                 SixSeatCar -> actorInfos?.forEach {
-                    drawVehicle(carColor, it, vehicle2Width, vehicle6Width)
+                    drawVehicle(it)
                 }
                 Plane -> actorInfos?.forEach {
                     drawPlayer(planeColor, it)
@@ -895,7 +895,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                 Player -> actorInfos?.forEach {
                     drawPlayer(playerColor, it)
 
-                    aimAtMe(it, selfX, selfY, currentTime, zoom)
+                 //   aimAtMe(it, selfX, selfY, currentTime, zoom)
                 }
                 Parachute -> actorInfos?.forEach {
                     drawPlayer(parachuteColor, it)
@@ -966,34 +966,34 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         circle(loc.x, loc.y, radius, segments)
     }
 
-    private fun ShapeRenderer.aimAtMe(it: renderInfo, selfX: Float, selfY: Float, currentTime: Long, zoom: Float) {
-        //draw aim line
-        val (actor, x, y, dir) = it
-        if (isTeamMate(actor)) return
-        val actorID = actor!!.netGUID
-        val dirVec = dirUnitVector.cpy().rotate(dir)
-        val focus = Vector2(selfX - x, selfY - y)
-        val distance = focus.len()
-        var aim = false
-        if (distance < aimLineRange && distance > aimCircleRadius) {
-            val aimAngle = focus.angle(dirVec)
-            if (aimAngle.absoluteValue < asin(aimCircleRadius / distance) * MathUtils.radiansToDegrees) { //aim
-                aim = true
-                aimStartTime.compute(actorID) { _, startTime ->
-                    if (startTime == null) currentTime
-                    else {
-                        if (currentTime - startTime > aimTimeThreshold) {
-                            color = aimLineColor
-                            rectLine(x, y, selfX, selfY, aimLineWidth * zoom)
-                        }
-                        startTime
-                    }
-                }
-            }
-        }
-        if (!aim)
-            aimStartTime.remove(actorID)
-    }
+//    private fun ShapeRenderer.aimAtMe(it: renderInfo, selfX: Float, selfY: Float, currentTime: Long, zoom: Float) {
+//        //draw aim line
+//        val (actor, x, y, dir) = it
+//        if (isTeamMate(actor)) return
+//        val actorID = actor!!.netGUID
+//        val dirVec = dirUnitVector.cpy().rotate(dir)
+//        val focus = Vector2(selfX - x, selfY - y)
+//        val distance = focus.len()
+//        var aim = false
+//        if (distance < aimLineRange && distance > aimCircleRadius) {
+//            val aimAngle = focus.angle(dirVec)
+//            if (aimAngle.absoluteValue < asin(aimCircleRadius / distance) * MathUtils.radiansToDegrees) { //aim
+//                aim = true
+//                aimStartTime.compute(actorID) { _, startTime ->
+//                    if (startTime == null) currentTime
+//                    else {
+//                        if (currentTime - startTime > aimTimeThreshold) {
+//                            color = aimLineColor
+//                            rectLine(x, y, selfX, selfY, aimLineWidth * zoom)
+//                        }
+//                        startTime
+//                    }
+//                }
+//            }
+//        }
+//        if (!aim)
+//            aimStartTime.remove(actorID)
+//    }
 
     private fun ShapeRenderer.drawPlayer(pColor: Color?, actorInfo: renderInfo, drawSight: Boolean = true) {
         val zoom = camera.zoom
@@ -1033,21 +1033,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         return false
     }
 
-    private fun ShapeRenderer.drawVehicle(_color: Color, actorInfo: renderInfo,
-                                          width: Float, height: Float) {
-
+    private fun ShapeRenderer.drawVehicle(actorInfo: renderInfo) {
         val (actor, x, y, dir) = actorInfo
         val vx = actor!!.velocity.x
         val vy = actor.velocity.y
-        val dirVector = dirUnitVector.cpy().rotate(dir).scl(height / 2)
-        color = BLACK
-        val backVector = dirVector.cpy().nor().scl(height / 2 + 200f)
-//        rectLine(x - backVector.x, y - backVector.y,
-//                x + backVector.x, y + backVector.y, width + 400f)
-//        color = _color
-//        rectLine(x - dirVector.x, y - dirVector.y,
-//                x + dirVector.x, y + dirVector.y, width)
-
         if (actor.beAttached || vx * vx + vy * vy > 40) {
             color = playerColor
             circle(x, y, playerRadius * camera.zoom, 10)
