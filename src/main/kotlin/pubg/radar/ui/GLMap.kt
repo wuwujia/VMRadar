@@ -1061,15 +1061,14 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
                         if (isTeamMate(actor)) {
 
+                            // Can't wait for the "Omg Players don't draw issues
+                            spriteBatch.draw(
+                                    player,
+                                    sx, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                    dir * -1, 0, 0, 64, 64, true, false)
+
                             if (toggleView == 1) {
-
-                                // Doesn't draw if you remove from IF statement
-                                spriteBatch.draw(
-                                        player,
-                                        sx, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
-
                                 spriteBatch.draw(
                                         playersight,
                                         sx + 1, windowHeight - sy - 2,
@@ -1078,25 +1077,18 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                         12.toFloat(), 2.toFloat(),
                                         10f, 10f,
                                         dir * -1, 0, 0, 512, 64, true, false)
-                            } else{
-                                spriteBatch.draw(
-                                        player,
-                                        sx, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
                             }
 
                         } else {
 
-                            if (toggleView == 1) {
-                                // Draw them both at same time to avoid it disappearing
-                                spriteBatch.draw(
-                                        arrow,
-                                        sx, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
+                            spriteBatch.draw(
+                                    arrow,
+                                    sx, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                    dir * -1, 0, 0, 64, 64, true, false)
 
-                                spriteBatch.draw(
+                            if (toggleView == 1) {
+                                        spriteBatch.draw(
                                         arrowsight,
                                         sx + 1, windowHeight - sy - 2,
                                         2.toFloat() / 2,
@@ -1104,13 +1096,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                         12.toFloat(), 2.toFloat(),
                                         10f, 10f,
                                         dir * -1, 0, 0, 512, 64, true, false)
-                            } else{
-
-                                spriteBatch.draw(
-                                        arrow,
-                                        sx, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
                             }
                         }
                     }
