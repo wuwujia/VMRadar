@@ -132,6 +132,14 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var hubpanel: Texture
     private lateinit var hubpanelblank: Texture
     private lateinit var vehicle: Texture
+    private lateinit var boato: Texture
+    private lateinit var bikeo: Texture
+    private lateinit var bike3xo: Texture
+    private lateinit var buggyo: Texture
+    private lateinit var vano: Texture
+    private lateinit var pickupo: Texture
+    private lateinit var vehicleo: Texture
+    private lateinit var jetskio: Texture
     private lateinit var plane: Texture
     private lateinit var boat: Texture
     private lateinit var bike: Texture
@@ -174,7 +182,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var filterAmmo = 1
     private var filterThrow = 1
     private var drawcompass = -1
-    private var toggleView = -1
+    private var toggleView = 1
     private var scopesToFilter = arrayListOf("")
     private var weaponsToFilter = arrayListOf("")
     private var attachToFilter = arrayListOf("")
@@ -314,6 +322,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         corpseboximage = Texture(Gdx.files.internal("icons/box.png"))
         airdropimage = Texture(Gdx.files.internal("icons/airdrop.png"))
         vehicle = Texture(Gdx.files.internal("images/vehicle.png"))
+        vehicleo = Texture(Gdx.files.internal("images/vehicleo.png"))
         arrow = Texture(Gdx.files.internal("images/arrow.png"))
         plane = Texture(Gdx.files.internal("images/plane.png"))
         player = Texture(Gdx.files.internal("images/player.png"))
@@ -327,6 +336,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         pickup = Texture(Gdx.files.internal("images/pickup.png"))
         van = Texture(Gdx.files.internal("images/van.png"))
         buggy = Texture(Gdx.files.internal("images/buggy.png"))
+        boato = Texture(Gdx.files.internal("images/boato.png"))
+        bikeo = Texture(Gdx.files.internal("images/bikeo.png"))
+        jetskio = Texture(Gdx.files.internal("images/jetskio.png"))
+        bike3xo = Texture(Gdx.files.internal("images/bike3xo.png"))
+        pickupo = Texture(Gdx.files.internal("images/pickupo.png"))
+        vano = Texture(Gdx.files.internal("images/vano.png"))
+        buggyo = Texture(Gdx.files.internal("images/buggyo.png"))
         grenade = Texture(Gdx.files.internal("images/grenade.png"))
         iconImages = Icons(Texture(Gdx.files.internal("images/item-sprites.png")), 64)
         mapErangelTiles = mutableMapOf()
@@ -808,11 +824,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private fun drawPawns(typeLocation: EnumMap<Archetype, MutableList<renderInfo>>) {
         val iconScale = 2f / camera.zoom
         for ((type, actorInfos) in typeLocation) {
+
             when (type) {
                 TwoSeatBoat -> actorInfos?.forEach {
+
                     if (toggleVehicles != 1) {
 
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
                         if (toggleVNames != 1) compaseFont.draw(spriteBatch, "JSKI", sx + 15, windowHeight - sy - 2)
@@ -823,11 +841,21 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 64, 64, true, false
                         )
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                            spriteBatch.draw(
+                                    jetskio,
+                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                    dir * -1, 0, 0, 64, 64, true, false
+                            )
+                        }
                     }
                 }
                 SixSeatBoat -> actorInfos?.forEach {
                     if (toggleVehicles != 1) {
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
                         if (toggleVNames != 1) compaseFont.draw(spriteBatch, "BOAT", sx + 15, windowHeight - sy - 2)
@@ -838,11 +866,21 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 64, 64, true, false
                         )
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                            spriteBatch.draw(
+                                    boato,
+                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                    dir * -1, 0, 0, 64, 64, true, false
+                            )
+                        }
                     }
                 }
                 TwoSeatBike -> actorInfos?.forEach {
                     if (toggleVehicles != 1) {
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
 
@@ -854,11 +892,21 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
                                 dir * -1, 0, 0, 64, 64, true, false
                         )
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                            spriteBatch.draw(
+                                    bikeo,
+                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
+                                    dir * -1, 0, 0, 64, 64, true, false
+                            )
+                        }
                     }
                 }
                 TwoSeatCar -> actorInfos?.forEach {
                     if (toggleVehicles != 1) {
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
                         if (toggleVNames != 1) compaseFont.draw(spriteBatch, "BUGGY", sx + 15, windowHeight - sy - 2)
@@ -871,11 +919,23 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 64, 64, false, false
                         )
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                            spriteBatch.draw(
+                                    buggyo,
+                                    sx + 2, windowHeight - sy - 2,
+                                    2.toFloat() / 2, 2.toFloat() / 2,
+                                    2.toFloat(), 2.toFloat(),
+                                    iconScale / 2, iconScale / 2,
+                                    dir * -1, 0, 0, 64, 64, false, false
+                            )
+                        }
                     }
                 }
                 ThreeSeatCar -> actorInfos?.forEach {
                     if (toggleVehicles != 1) {
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
                         if (toggleVNames != 1) compaseFont.draw(spriteBatch, "BIKE", sx + 15, windowHeight - sy - 2)
@@ -888,12 +948,22 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 64, 64, true, false
                         )
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                            spriteBatch.draw(
+                                    bike3xo,
+                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2, 4.toFloat() / 2,
+                                    4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                    dir * -1, 0, 0, 64, 64, true, false
+                            )
+                        }
                     }
 
                 }
                 FourSeatDU -> actorInfos?.forEach {
                     if (toggleVehicles != 1) {
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
                         if (toggleVNames != 1) compaseFont.draw(spriteBatch, "CAR", sx + 15, windowHeight - sy - 2)
@@ -906,11 +976,25 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 128, 128, false, false
                         )
+                        // Draw over top whenever some is in car
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                        spriteBatch.draw(
+                                vehicleo,
+                                sx + 2, windowHeight - sy - 2,
+                                2.toFloat() / 2, 2.toFloat() / 2,
+                                2.toFloat(), 2.toFloat(),
+                                iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 128, 128, false, false
+                        )
                     }
+}
+
                 }
                 FourSeatP -> actorInfos?.forEach {
                     if (toggleVehicles != 1) {
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
                         if (toggleVNames != 1) compaseFont.draw(spriteBatch, "PICKUP", sx + 15, windowHeight - sy - 2)
@@ -923,11 +1007,24 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 64, 64, false, false
                         )
+
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                            spriteBatch.draw(
+                                    pickupo,
+                                    sx + 2, windowHeight - sy - 2,
+                                    2.toFloat() / 2, 2.toFloat() / 2,
+                                    2.toFloat(), 2.toFloat(),
+                                    iconScale / 2, iconScale / 2,
+                                    dir * -1, 0, 0, 64, 64, false, false
+                            )
+                        }
                     }
                 }
                 SixSeatCar -> actorInfos?.forEach {
                     if (toggleVehicles != 1) {
-                        val (_, x, y, dir) = it
+                        val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
                         if (toggleVNames != 1) compaseFont.draw(spriteBatch, "VAN", sx + 15, windowHeight - sy - 2)
@@ -940,6 +1037,19 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                 iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 64, 64, false, false
                         )
+
+                        val v_x = actor!!.velocity.x
+                        val v_y = actor.velocity.y
+                        if (actor.beAttached || v_x * v_x + v_y * v_y > 40){
+                            spriteBatch.draw(
+                                    vano,
+                                    sx + 2, windowHeight - sy - 2,
+                                    2.toFloat() / 2, 2.toFloat() / 2,
+                                    2.toFloat(), 2.toFloat(),
+                                    iconScale / 2, iconScale / 2,
+                                    dir * -1, 0, 0, 64, 64, false, false
+                            )
+                        }
                     }
                 }
                 Player -> actorInfos?.forEach {
@@ -952,6 +1062,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         if (isTeamMate(actor)) {
 
                             if (toggleView == 1) {
+
+                                // Doesn't draw if you remove from IF statement
                                 spriteBatch.draw(
                                         player,
                                         sx, windowHeight - sy - 2, 4.toFloat() / 2,
