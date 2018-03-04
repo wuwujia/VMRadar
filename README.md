@@ -4,8 +4,6 @@
 
 https://github.com/SamuelNZ/VMRadar/releases
 
-![Imgur](https://i.imgur.com/yhC2WHU.gif)
-
 
 ### Key Kinds
 You can't filter level 3 gear (always enabled)
