@@ -66,6 +66,7 @@ import kotlin.collections.ArrayList
 import kotlin.math.pow
 
 typealias renderInfo = tuple4<Actor, Float, Float, Float>
+
 //fun Float.d(n: Int) = String.format("%.${n}f", this)
 class GLMap : InputAdapter(), ApplicationListener, GameListener {
     companion object {
@@ -139,8 +140,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var van: Texture
     private lateinit var pickup: Texture
     private lateinit var arrow: Texture
+    private lateinit var arrowsight: Texture
     private lateinit var jetski: Texture
     private lateinit var player: Texture
+    private lateinit var playersight: Texture
     private lateinit var parachute: Texture
     private lateinit var grenade: Texture
     private lateinit var hubFont: BitmapFont
@@ -314,6 +317,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         arrow = Texture(Gdx.files.internal("images/arrow.png"))
         plane = Texture(Gdx.files.internal("images/plane.png"))
         player = Texture(Gdx.files.internal("images/player.png"))
+        playersight = Texture(Gdx.files.internal("images/green_view_line.png"))
+        arrowsight = Texture(Gdx.files.internal("images/red_view_line.png"))
         parachute = Texture(Gdx.files.internal("images/parachute.png"))
         boat = Texture(Gdx.files.internal("images/boat.png"))
         bike = Texture(Gdx.files.internal("images/bike.png"))
@@ -704,13 +709,30 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private fun drawMyself(actorInfo: renderInfo) {
         val (_, x, y, dir) = actorInfo
         val (sx, sy) = Vector2(x, y).mapToWindow()
-
+        if (toggleView == 1) {
+            // Just draw them both at the same time to avoid player not drawing ¯\_(ツ)_/¯
             spriteBatch.draw(
-
                     player,
-                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                    sx, windowHeight - sy - 2, 4.toFloat() / 2,
                     4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                     dir * -1, 0, 0, 64, 64, true, false)
+
+            spriteBatch.draw(
+                    playersight,
+                    sx + 1, windowHeight - sy - 2,
+                    2.toFloat() / 2,
+                    2.toFloat() / 2,
+                    12.toFloat(), 2.toFloat(),
+                    10f, 10f,
+                    dir * -1, 0, 0, 512, 64, true, false)
+        } else {
+
+            spriteBatch.draw(
+                    player,
+                    sx, windowHeight - sy - 2, 4.toFloat() / 2,
+                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                    dir * -1, 0, 0, 64, 64, true, false)
+        }
     }
 
     private fun drawAttackLine(currentTime: Long) {
@@ -929,18 +951,34 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
                         if (isTeamMate(actor)) {
 
-                                spriteBatch.draw(
-                                        player,
-                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
+                            spriteBatch.draw(
+                                    player,
+                                    sx, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                    dir * -1, 0, 0, 64, 64, true, false)
                         } else {
+                            if (toggleView == 1) {
+                                // Draw them both at same time to avoid it disappearing
                                 spriteBatch.draw(
                                         arrow,
-                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                        sx, windowHeight - sy - 2, 4.toFloat() / 2,
                                         4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                                         dir * -1, 0, 0, 64, 64, true, false)
-
+                                spriteBatch.draw(
+                                        arrowsight,
+                                        sx + 1, windowHeight - sy - 2,
+                                        2.toFloat() / 2,
+                                        2.toFloat() / 2,
+                                        12.toFloat(), 2.toFloat(),
+                                        10f, 10f,
+                                        dir * -1, 0, 0, 512, 64, true, false)
+                            }else{
+                                spriteBatch.draw(
+                                        arrow,
+                                        sx, windowHeight - sy - 2, 4.toFloat() / 2,
+                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                        dir * -1, 0, 0, 64, 64, true, false)
+                            }
                         }
                     }
 
@@ -951,11 +989,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         val (_, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
-                            spriteBatch.draw(
-                                    parachute,
-                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 8f, 8f,
-                                    dir * -1, 0, 0, 128, 128, true, false)
+                        spriteBatch.draw(
+                                parachute,
+                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 8f, 8f,
+                                dir * -1, 0, 0, 128, 128, true, false)
 
                     }
                 }
