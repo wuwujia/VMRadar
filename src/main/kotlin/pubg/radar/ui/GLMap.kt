@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
-import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS
@@ -133,7 +132,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var vehicle: Texture
     private lateinit var boat: Texture
     private lateinit var bike: Texture
-    //   private lateinit var buggy: Texture
+    private lateinit var bike3x: Texture
+    private lateinit var buggy: Texture
+    private lateinit var van: Texture
+    private lateinit var pickup: Texture
     private lateinit var arrow: Texture
     private lateinit var player: Texture
     private lateinit var parachute: Texture
@@ -161,11 +163,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private val aimStartTime = HashMap<NetworkGUID, Long>()
     private val attackLineStartTime = LinkedList<Triple<NetworkGUID, NetworkGUID, Long>>()
     private val pinLocation = Vector2()
-    private var filterWeapon = 1
+    private var filterWeapon = -1
     private var filterAttach = 1
     private var filterLvl2 = 1
-    private var filterScope = 1
-    private var filterHeals = 1
+    private var filterScope = -1
+    private var filterHeals = -1
     private var filterAmmo = 1
     private var filterThrow = 1
     private var drawcompass = -1
@@ -182,7 +184,8 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var prevScreenY = -1f
     private var screenOffsetX = 0f
     private var screenOffsetY = 0f
-    private var ticons = -1
+    private var ticons = 1
+    private var toggleVechicles = -1
 
     private fun Vector2.windowToMap() =
             Vector2(selfCoords.x + (x - windowWidth / 2.0f) * camera.zoom * windowToMapUnit + screenOffsetX,
@@ -252,8 +255,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
 
-            // Toggle Transparent Player Icons
+        // Toggle Transparent Player Icons
             F8 -> ticons = ticons * -1
+            F7 -> toggleVechicles = toggleVechicles * -1
 
         // Zoom In/Out || Overrides Max/Min Zoom
             F9 -> camera.zoom = camera.zoom + 0.00525f
@@ -315,7 +319,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         parachutet = Texture(Gdx.files.internal("images/parachuteT.png"))
         boat = Texture(Gdx.files.internal("images/boat.png"))
         bike = Texture(Gdx.files.internal("images/bike.png"))
-  //    buggy = Texture(Gdx.files.internal("images/buggy.png"))
+        bike3x = Texture(Gdx.files.internal("images/bike3x.png"))
+        pickup = Texture(Gdx.files.internal("images/pickup.png"))
+        van = Texture(Gdx.files.internal("images/van.png"))
+        buggy = Texture(Gdx.files.internal("images/buggy.png"))
         grenade = Texture(Gdx.files.internal("images/grenade.png"))
         iconImages = Icons(Texture(Gdx.files.internal("images/item-sprites.png")), 64)
         mapErangelTiles = mutableMapOf()
@@ -698,14 +705,14 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private fun drawMyself(actorInfo: renderInfo) {
         val (actor, x, y, dir) = actorInfo
         val (sx, sy) = Vector2(x, y).mapToWindow()
-        if(ticons != 1) {
+        if (ticons != 1) {
             spriteBatch.draw(
 
                     player,
                     sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                     4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                     dir * -1, 0, 0, 64, 64, true, false)
-        }else{
+        } else {
             spriteBatch.draw(
 
                     playert,
@@ -790,90 +797,114 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         for ((type, actorInfos) in typeLocation) {
             when (type) {
                 TwoSeatBoat -> actorInfos?.forEach {
-                    val (actor, x, y, dir) = it
-                    val (sx, sy) = Vector2(x, y).mapToWindow()
-                    spriteBatch.draw(
-                            boat,
-                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                            4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 64, 64, true, false
-                    )
+                    if (toggleVechicles != 1) {
 
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                        spriteBatch.draw(
+                                boat,
+                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 64, 64, true, false
+                        )
+                    }
                 }
                 SixSeatBoat -> actorInfos?.forEach {
-                    val (actor, x, y, dir) = it
-                    val (sx, sy) = Vector2(x, y).mapToWindow()
-                    spriteBatch.draw(
-                            boat,
-                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                            4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 64, 64, true, false
-                    )
-
+                    if (toggleVechicles != 1) {
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                        spriteBatch.draw(
+                                boat,
+                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 64, 64, true, false
+                        )
+                    }
                 }
                 TwoSeatBike -> actorInfos?.forEach {
-                    val (actor, x, y, dir) = it
-                    val (sx, sy) = Vector2(x, y).mapToWindow()
+                    if (toggleVechicles != 1) {
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
 
-                    spriteBatch.draw(
-                            bike,
-                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                            4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
-                            dir * -1, 0, 0, 64, 50, true, false
-                    )
-
+                        spriteBatch.draw(
+                                bike,
+                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
+                                dir * -1, 0, 0, 64, 64, true, false
+                        )
+                    }
                 }
                 TwoSeatCar -> actorInfos?.forEach {
-                    val (actor, x, y, dir) = it
-                    val (sx, sy) = Vector2(x, y).mapToWindow()
+                    if (toggleVechicles != 1) {
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
 
-                    spriteBatch.draw(
-                            vehicle,
-                            sx + 2, windowHeight - sy - 2,
-                            2.toFloat() / 2, 2.toFloat() / 2,
-                            2.toFloat(), 2.toFloat(),
-                            iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 128, 128, false, false
-                    )
-
+                        spriteBatch.draw(
+                                buggy,
+                                sx + 2, windowHeight - sy - 2,
+                                2.toFloat() / 2, 2.toFloat() / 2,
+                                2.toFloat(), 2.toFloat(),
+                                iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 64, 64, false, false
+                        )
+                    }
                 }
                 ThreeSeatCar -> actorInfos?.forEach {
-                    val (actor, x, y, dir) = it
-                    val (sx, sy) = Vector2(x, y).mapToWindow()
-                    val selfDir = Vector2(x, y).sub(preSelfCoords)
-                    if (selfDir.len() < 1e-8) selfDir.set(preDirection)
-                    spriteBatch.draw(
-                            bike,
-                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2, 4.toFloat() / 2,
-                            4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 64, 50, true, false
-                    )
-
+                    if (toggleVechicles != 1) {
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                        val selfDir = Vector2(x, y).sub(preSelfCoords)
+                        if (selfDir.len() < 1e-8) selfDir.set(preDirection)
+                        spriteBatch.draw(
+                                bike3x,
+                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2, 4.toFloat() / 2,
+                                4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 64, 64, true, false
+                        )
+                    }
 
                 }
-                FourSeatCar -> actorInfos?.forEach {
-                    val (actor, x, y, dir) = it
-                    val (sx, sy) = Vector2(x, y).mapToWindow()
-                    spriteBatch.draw(
-                            vehicle,
-                            sx + 2, windowHeight - sy - 2,
-                            2.toFloat() / 2, 2.toFloat() / 2,
-                            2.toFloat(), 2.toFloat(),
-                            iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 128, 128, false, false
-                    )
+                FourSeatDU -> actorInfos?.forEach {
+                    if (toggleVechicles != 1) {
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                        spriteBatch.draw(
+                                vehicle,
+                                sx + 2, windowHeight - sy - 2,
+                                2.toFloat() / 2, 2.toFloat() / 2,
+                                2.toFloat(), 2.toFloat(),
+                                iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 128, 128, false, false
+                        )
+                    }
+                }
+                FourSeatP -> actorInfos?.forEach {
+                    if (toggleVechicles != 1) {
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                        spriteBatch.draw(
+                                pickup,
+                                sx + 2, windowHeight - sy - 2,
+                                2.toFloat() / 2, 2.toFloat() / 2,
+                                2.toFloat(), 2.toFloat(),
+                                iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 64, 64, false, false
+                        )
+                    }
                 }
                 SixSeatCar -> actorInfos?.forEach {
-                    val (actor, x, y, dir) = it
-                    val (sx, sy) = Vector2(x, y).mapToWindow()
-                    spriteBatch.draw(
-                            vehicle,
-                            sx + 2, windowHeight - sy - 2,
-                            2.toFloat() / 2, 2.toFloat() / 2,
-                            2.toFloat(), 2.toFloat(),
-                            iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 128, 128, false, false
-                    )
+                    if (toggleVechicles != 1) {
+                        val (actor, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
+                        spriteBatch.draw(
+                                van,
+                                sx + 2, windowHeight - sy - 2,
+                                2.toFloat() / 2, 2.toFloat() / 2,
+                                2.toFloat(), 2.toFloat(),
+                                iconScale / 2, iconScale / 2,
+                                dir * -1, 0, 0, 64, 64, false, false
+                        )
+                    }
                 }
                 Player -> actorInfos?.forEach {
 
@@ -884,13 +915,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
 
                         if (isTeamMate(actor)) {
-                            if(ticons != 1){
-                            spriteBatch.draw(
-                                    player,
-                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                    dir * -1, 0, 0, 64, 64, true, false)}else
-                            {
+                            if (ticons != 1) {
+                                spriteBatch.draw(
+                                        player,
+                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                        dir * -1, 0, 0, 64, 64, true, false)
+                            } else {
                                 spriteBatch.draw(
                                         playert,
                                         sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
@@ -900,13 +931,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                             }
                         } else {
 
-                            if(ticons != 1) {
+                            if (ticons != 1) {
                                 spriteBatch.draw(
                                         arrow,
                                         sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                                         4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                                         dir * -1, 0, 0, 64, 64, true, false)
-                            }else{
+                            } else {
                                 spriteBatch.draw(
                                         arrowt,
                                         sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
@@ -925,13 +956,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
                         val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
-                        if(ticons != 1) {
+                        if (ticons != 1) {
                             spriteBatch.draw(
                                     parachute,
                                     sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                                     4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                                     dir * -1, 0, 0, 64, 64, true, false)
-                        }else{
+                        } else {
                             spriteBatch.draw(
                                     parachutet,
                                     sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
