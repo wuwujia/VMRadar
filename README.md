@@ -4,7 +4,7 @@
 
 https://github.com/SamuelNZ/VMRadar/releases
 
-![Imgur](https://i.imgur.com/Pc7foHp.gif)
+![Imgur](https://i.imgur.com/yhC2WHU.gif)
 
 
 ### Key Kinds
@@ -21,11 +21,12 @@ You can't filter level 3 gear (always enabled)
 * NUMPAD_5 -> Filter Level 2 Gear          
 * NUMPAD_6 -> Filter Meds
            
-#### Icons
+#### Icon Toggles
 
 
 * F6 -> Toggle Vehicle Names 
 * F7 -> Toggle Vehicles 
+* F11 -> Toggle View Line
 
 #### Zooms:
 * NUMPAD_7 -> Scouting
@@ -33,7 +34,6 @@ You can't filter level 3 gear (always enabled)
 * NUMPAD_9 -> Looting
 * F9 ->  Camera Zoom ++
 * F10 -> Camera Zoom --
-* F11 -> Toggle View Line
 
 
 ### Online Mode:
