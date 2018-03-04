@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS
@@ -136,6 +137,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var arrow: Texture
     private lateinit var player: Texture
     private lateinit var parachute: Texture
+    private lateinit var arrowt: Texture
+    private lateinit var playert: Texture
+    private lateinit var parachutet: Texture
     private lateinit var grenade: Texture
     private lateinit var hubFont: BitmapFont
     private lateinit var hubFontShadow: BitmapFont
@@ -178,6 +182,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var prevScreenY = -1f
     private var screenOffsetX = 0f
     private var screenOffsetY = 0f
+    private var ticons = -1
 
     private fun Vector2.windowToMap() =
             Vector2(selfCoords.x + (x - windowWidth / 2.0f) * camera.zoom * windowToMapUnit + screenOffsetX,
@@ -247,6 +252,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
 
+            // Toggle Transparent Player Icons
+            F8 -> ticons = ticons * -1
+
         // Zoom In/Out || Overrides Max/Min Zoom
             F9 -> camera.zoom = camera.zoom + 0.00525f
             F10 -> camera.zoom = camera.zoom - 0.00525f
@@ -302,6 +310,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         arrow = Texture(Gdx.files.internal("images/arrow.png"))
         player = Texture(Gdx.files.internal("images/player.png"))
         parachute = Texture(Gdx.files.internal("images/parachute.png"))
+        arrowt = Texture(Gdx.files.internal("images/arrowT.png"))
+        playert = Texture(Gdx.files.internal("images/playerT.png"))
+        parachutet = Texture(Gdx.files.internal("images/parachuteT.png"))
         boat = Texture(Gdx.files.internal("images/boat.png"))
         bike = Texture(Gdx.files.internal("images/bike.png"))
   //    buggy = Texture(Gdx.files.internal("images/buggy.png"))
@@ -687,12 +698,21 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private fun drawMyself(actorInfo: renderInfo) {
         val (actor, x, y, dir) = actorInfo
         val (sx, sy) = Vector2(x, y).mapToWindow()
-        spriteBatch.draw(
-                player,
-                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                dir * -1, 0, 0, 64, 64, true, false)
+        if(ticons != 1) {
+            spriteBatch.draw(
 
+                    player,
+                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                    dir * -1, 0, 0, 64, 64, true, false)
+        }else{
+            spriteBatch.draw(
+
+                    playert,
+                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                    dir * -1, 0, 0, 64, 64, true, false)
+        }
     }
 
     private fun drawAttackLine(currentTime: Long) {
@@ -809,9 +829,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
                     spriteBatch.draw(
                             vehicle,
-                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                            4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
-                            dir * -1, 0, 0, 64, 64, true, false
+                            sx + 2, windowHeight - sy - 2,
+                            2.toFloat() / 2, 2.toFloat() / 2,
+                            2.toFloat(), 2.toFloat(),
+                            iconScale / 2, iconScale / 2,
+                            dir * -1, 0, 0, 128, 128, false, false
                     )
 
                 }
@@ -862,17 +884,38 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
 
                         if (isTeamMate(actor)) {
+                            if(ticons != 1){
                             spriteBatch.draw(
                                     player,
                                     sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                                     4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                    dir * -1, 0, 0, 64, 64, true, false)
+                                    dir * -1, 0, 0, 64, 64, true, false)}else
+                            {
+                                spriteBatch.draw(
+                                        playert,
+                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                        dir * -1, 0, 0, 64, 64, true, false)
+
+                            }
                         } else {
-                            spriteBatch.draw(
-                                    arrow,
-                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                    dir * -1, 0, 0, 64, 64, true, false)
+
+                            if(ticons != 1) {
+                                spriteBatch.draw(
+                                        arrow,
+                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                        dir * -1, 0, 0, 64, 64, true, false)
+                            }else{
+                                spriteBatch.draw(
+                                        arrowt,
+                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                        dir * -1, 0, 0, 64, 64, true, false)
+
+                            }
+
+
                         }
                     }
 
@@ -882,12 +925,19 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
                         val (actor, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
-
-                        spriteBatch.draw(
-                                parachute,
-                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                dir * -1, 0, 0, 64, 64, true, false)
+                        if(ticons != 1) {
+                            spriteBatch.draw(
+                                    parachute,
+                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                    dir * -1, 0, 0, 64, 64, true, false)
+                        }else{
+                            spriteBatch.draw(
+                                    parachutet,
+                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
+                                    dir * -1, 0, 0, 64, 64, true, false)
+                        }
                     }
                 }
                 Grenade -> actorInfos?.forEach {
@@ -907,7 +957,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
         }
     }
-
 
     private fun drawPlayerNames(players: MutableList<renderInfo>?) {
         players?.forEach {
