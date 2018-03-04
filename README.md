@@ -2,8 +2,6 @@
 
 #### By engaging with this repository you explicitly agree with the terms of the Unlicense.
 
-https://github.com/SamuelNZ/VMRadar/releases
-
 
 ### Key Kinds
 You can't filter level 3 gear (always enabled)
