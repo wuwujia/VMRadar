@@ -131,6 +131,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var hubpanel: Texture
     private lateinit var hubpanelblank: Texture
     private lateinit var vehicle: Texture
+    private lateinit var plane: Texture
     private lateinit var boat: Texture
     private lateinit var bike: Texture
     private lateinit var bike3x: Texture
@@ -138,11 +139,9 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var van: Texture
     private lateinit var pickup: Texture
     private lateinit var arrow: Texture
+    private lateinit var jetski: Texture
     private lateinit var player: Texture
     private lateinit var parachute: Texture
-    private lateinit var arrowt: Texture
-    private lateinit var playert: Texture
-    private lateinit var parachutet: Texture
     private lateinit var grenade: Texture
     private lateinit var hubFont: BitmapFont
     private lateinit var hubFontShadow: BitmapFont
@@ -185,7 +184,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var prevScreenY = -1f
     private var screenOffsetX = 0f
     private var screenOffsetY = 0f
-    private var ticons = 1
     private var toggleVehicles = -1
     private var toggleVNames = 1
 
@@ -258,7 +256,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_9 -> camera.zoom = 1 / 24f
 
         // Toggle Transparent Player Icons
-            F8 -> ticons = ticons * -1
             F7 -> toggleVehicles = toggleVehicles * -1
             F6 -> toggleVNames = toggleVNames * -1
 
@@ -315,13 +312,12 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         airdropimage = Texture(Gdx.files.internal("icons/airdrop.png"))
         vehicle = Texture(Gdx.files.internal("images/vehicle.png"))
         arrow = Texture(Gdx.files.internal("images/arrow.png"))
+        plane = Texture(Gdx.files.internal("images/plane.png"))
         player = Texture(Gdx.files.internal("images/player.png"))
         parachute = Texture(Gdx.files.internal("images/parachute.png"))
-        arrowt = Texture(Gdx.files.internal("images/arrowT.png"))
-        playert = Texture(Gdx.files.internal("images/playerT.png"))
-        parachutet = Texture(Gdx.files.internal("images/parachuteT.png"))
         boat = Texture(Gdx.files.internal("images/boat.png"))
         bike = Texture(Gdx.files.internal("images/bike.png"))
+        bike = Texture(Gdx.files.internal("images/jetski.png"))
         bike3x = Texture(Gdx.files.internal("images/bike3x.png"))
         pickup = Texture(Gdx.files.internal("images/pickup.png"))
         van = Texture(Gdx.files.internal("images/van.png"))
@@ -708,21 +704,13 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private fun drawMyself(actorInfo: renderInfo) {
         val (_, x, y, dir) = actorInfo
         val (sx, sy) = Vector2(x, y).mapToWindow()
-        if (ticons != 1) {
+
             spriteBatch.draw(
 
                     player,
                     sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                     4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                     dir * -1, 0, 0, 64, 64, true, false)
-        } else {
-            spriteBatch.draw(
-
-                    playert,
-                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                    dir * -1, 0, 0, 64, 64, true, false)
-        }
     }
 
     private fun drawAttackLine(currentTime: Long) {
@@ -805,10 +793,10 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                         val (_, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
 
-                        if (toggleVNames != 1) compaseFont.draw(spriteBatch, "BOAT", sx + 15, windowHeight - sy - 2)
+                        if (toggleVNames != 1) compaseFont.draw(spriteBatch, "JSKI", sx + 15, windowHeight - sy - 2)
 
                         spriteBatch.draw(
-                                boat,
+                                jetski,
                                 sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                                 4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
                                 dir * -1, 0, 0, 64, 64, true, false
@@ -940,37 +928,18 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
 
                         if (isTeamMate(actor)) {
-                            if (ticons != 1) {
+
                                 spriteBatch.draw(
                                         player,
                                         sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                                         4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                                         dir * -1, 0, 0, 64, 64, true, false)
-                            } else {
-                                spriteBatch.draw(
-                                        playert,
-                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
-
-                            }
                         } else {
-
-                            if (ticons != 1) {
                                 spriteBatch.draw(
                                         arrow,
                                         sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                                         4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
                                         dir * -1, 0, 0, 64, 64, true, false)
-                            } else {
-                                spriteBatch.draw(
-                                        arrowt,
-                                        sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                        4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                        dir * -1, 0, 0, 64, 64, true, false)
-
-                            }
-
 
                         }
                     }
@@ -981,19 +950,27 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
 
                         val (_, x, y, dir) = it
                         val (sx, sy) = Vector2(x, y).mapToWindow()
-                        if (ticons != 1) {
+
                             spriteBatch.draw(
                                     parachute,
                                     sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                    dir * -1, 0, 0, 64, 64, true, false)
-                        } else {
-                            spriteBatch.draw(
-                                    parachutet,
-                                    sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
-                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 5f, 5f,
-                                    dir * -1, 0, 0, 64, 64, true, false)
-                        }
+                                    4.toFloat() / 2, 4.toFloat(), 4.toFloat(), 8f, 8f,
+                                    dir * -1, 0, 0, 128, 128, true, false)
+
+                    }
+                }
+                Plane -> actorInfos?.forEach {
+                    for ((_, _) in typeLocation) {
+
+                        val (_, x, y, dir) = it
+                        val (sx, sy) = Vector2(x, y).mapToWindow()
+
+                        spriteBatch.draw(
+                                plane,
+                                sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                                4.toFloat() / 2, 5.toFloat(), 5.toFloat(), 10f, 10f,
+                                dir * -1, 0, 0, 64, 64, true, false)
+
                     }
                 }
                 Grenade -> actorInfos?.forEach {
