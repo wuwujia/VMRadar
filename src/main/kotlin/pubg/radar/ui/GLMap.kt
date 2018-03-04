@@ -132,6 +132,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private lateinit var vehicle: Texture
     private lateinit var boat: Texture
     private lateinit var bike: Texture
+    //   private lateinit var buggy: Texture
     private lateinit var arrow: Texture
     private lateinit var player: Texture
     private lateinit var parachute: Texture
@@ -303,6 +304,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         parachute = Texture(Gdx.files.internal("images/parachute.png"))
         boat = Texture(Gdx.files.internal("images/boat.png"))
         bike = Texture(Gdx.files.internal("images/bike.png"))
+  //    buggy = Texture(Gdx.files.internal("images/buggy.png"))
         grenade = Texture(Gdx.files.internal("images/grenade.png"))
         iconImages = Icons(Texture(Gdx.files.internal("images/item-sprites.png")), 64)
         mapErangelTiles = mutableMapOf()
@@ -774,7 +776,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                             boat,
                             sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                             4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 64, 37, true, false
+                            dir * -1, 0, 0, 64, 64, true, false
                     )
 
                 }
@@ -785,7 +787,19 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                             boat,
                             sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                             4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 2, iconScale / 2,
-                            dir * -1, 0, 0, 64, 37, true, false
+                            dir * -1, 0, 0, 64, 64, true, false
+                    )
+
+                }
+                TwoSeatBike -> actorInfos?.forEach {
+                    val (actor, x, y, dir) = it
+                    val (sx, sy) = Vector2(x, y).mapToWindow()
+
+                    spriteBatch.draw(
+                            bike,
+                            sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
+                            4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
+                            dir * -1, 0, 0, 64, 50, true, false
                     )
 
                 }
@@ -794,7 +808,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                     val (sx, sy) = Vector2(x, y).mapToWindow()
 
                     spriteBatch.draw(
-                            bike,
+                            vehicle,
                             sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                             4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
                             dir * -1, 0, 0, 64, 50, true, false
