@@ -2,6 +2,7 @@
 
 #### By engaging with this repository you explicitly agree with the terms of the Unlicense.
 
+![Imgur](https://i.imgur.com/2bCpNog.gif)
 
 ### Key Kinds
 You can't filter level 3 gear (always enabled)
