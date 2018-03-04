@@ -23,6 +23,8 @@ You can't filter level 3 gear (always enabled)
            
 #### Icons
 
+
+* F6 -> Toggle Vehicle Names
 * F7 -> Toggle Vehciles
 * F8 -> Toggle Transparent Icons for Parachute/Player/Team
 
