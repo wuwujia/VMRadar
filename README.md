@@ -6,22 +6,20 @@ https://github.com/SamuelNZ/VMRadar/releases
 
 ![Imgur](https://i.imgur.com/Pc7foHp.gif)
 
-This version runs without the spoofing shit in a VM.
-
-'Fixed' the item locations, still working on it.
 
 ### Key Kinds
 You can't filter level 3 gear (always enabled)
 
 #### Item Filter:
+
 * HOME -> Show / Hide Compass
-NUMPAD_0 -> Filter Throwables
-NUMPAD_1 -> Filter Attachments
-NUMPAD_2 -> Filter Scopes 
-NUMPAD_3 -> Filter Ammo 
-NUMPAD_4 -> Filter Weapons
-NUMPAD_5 -> Filter Level 2 Gear          
-NUMPAD_6 -> Filter Meds
+* NUMPAD_0 -> Filter Throwables
+* NUMPAD_1 -> Filter Attachments
+* NUMPAD_2 -> Filter Scopes 
+* NUMPAD_3 -> Filter Ammo 
+* NUMPAD_4 -> Filter Weapons
+* NUMPAD_5 -> Filter Level 2 Gear          
+* NUMPAD_6 -> Filter Meds
            
 #### Icons
 
