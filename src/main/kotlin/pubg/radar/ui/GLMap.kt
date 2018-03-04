@@ -317,7 +317,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
         parachute = Texture(Gdx.files.internal("images/parachute.png"))
         boat = Texture(Gdx.files.internal("images/boat.png"))
         bike = Texture(Gdx.files.internal("images/bike.png"))
-        bike = Texture(Gdx.files.internal("images/jetski.png"))
+        jetski = Texture(Gdx.files.internal("images/jetski.png"))
         bike3x = Texture(Gdx.files.internal("images/bike3x.png"))
         pickup = Texture(Gdx.files.internal("images/pickup.png"))
         van = Texture(Gdx.files.internal("images/van.png"))
