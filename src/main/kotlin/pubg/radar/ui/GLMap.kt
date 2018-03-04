@@ -811,7 +811,7 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                             vehicle,
                             sx + 2, windowHeight - sy - 2, 4.toFloat() / 2,
                             4.toFloat() / 2, 4.toFloat(), 4.toFloat(), iconScale / 3, iconScale / 3,
-                            dir * -1, 0, 0, 64, 50, true, false
+                            dir * -1, 0, 0, 64, 64, true, false
                     )
 
                 }
