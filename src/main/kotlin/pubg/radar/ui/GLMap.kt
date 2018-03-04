@@ -178,10 +178,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
     private var screenOffsetX = 0f
     private var screenOffsetY = 0f
 
-    // Item Offset
-    private var itemXlazy = 0f
-    private var itemYlazy = 0f
-
     private fun Vector2.windowToMap() =
             Vector2(selfCoords.x + (x - windowWidth / 2.0f) * camera.zoom * windowToMapUnit + screenOffsetX,
                     selfCoords.y + (y - windowHeight / 2.0f) * camera.zoom * windowToMapUnit + screenOffsetY)
@@ -249,13 +245,6 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
             NUMPAD_7 -> camera.zoom = 1 / 8f
             NUMPAD_8 -> camera.zoom = 1 / 12f
             NUMPAD_9 -> camera.zoom = 1 / 24f
-
-
-        // Item Offset Tweaker Keybinds
-            F5 -> itemXlazy = itemXlazy + 1f
-            F6 -> itemXlazy = itemXlazy - 1f
-            F7 -> itemYlazy = itemYlazy + 1f
-            F8 -> itemYlazy = itemYlazy - 1f
 
         // Zoom In/Out || Overrides Max/Min Zoom
             F9 -> camera.zoom = camera.zoom + 0.00525f
@@ -624,10 +613,11 @@ class GLMap : InputAdapter(), ApplicationListener, GameListener {
                                                     if (it !in throwToFilter) {
                                                         if (iconScale > 20 && sx > 0 && sx < windowWidth && syFix > 0 && syFix < windowHeight) {
                                                             iconImages.setIcon(it)
-                                                            draw(iconImages.icon, sx + 8 + itemXlazy, syFix -8 - itemYlazy,
-                                                                    1f / 2, 1f / 2,
-                                                                    2f / 2, 2f / 2,
-                                                                    iconScale, iconScale, 0f)
+
+                                                            // Thanks https://github.com/PubgKnown
+                                                            draw(iconImages.icon,
+                                                                    sx - iconScale / 2, syFix - iconScale / 2,
+                                                                    iconScale, iconScale)
                                                         }
                                                     }
                                                 }
