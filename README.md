@@ -23,15 +23,9 @@ NUMPAD_4 -> Filter Weapons
 NUMPAD_5 -> Filter Level 2 Gear          
 NUMPAD_6 -> Filter Meds
            
+#### Icons
 
-
-
-
-#### Item Offset Tweaker Keybinds
-* F5 -> Item Offset X++
-* F6 -> Item Offset X--
-* F7 -> Item Offset Y++
-* F8 -> Item Offset Y--
+* F8 -> Toggle Transparent Icons for Parachute/Player/Team
 
 #### Zooms:
 * NUMPAD_7 -> Scouting
