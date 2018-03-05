@@ -2,6 +2,8 @@
 
 #### By engaging with this repository you explicitly agree with the terms of the Unlicense.
 
+Based on the brilliant work of [AiYinZiLeGong](https://github.com/AiYinZiLeGong/PUBG-Radar) and many others on that fork, wouldn't be possible without them. If you can't figure out how to use this why are you even on a computer, Done giving support after the last few comments.
+
 ![Imgur](https://i.imgur.com/2bCpNog.gif)
 
 ### Key Kinds
